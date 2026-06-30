@@ -22,40 +22,33 @@ export default function App() {
   }
 
   return (
-    <div style={styles.layout}>
-      <aside style={styles.sidebar}>
-        <h1 style={styles.title}>RAG App</h1>
+    <div className="flex h-screen bg-gray-50 font-sans">
+      <aside className="w-72 bg-white border-r border-gray-200 flex flex-col gap-4 p-5 overflow-y-auto shrink-0">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
+            <span className="text-white text-xs font-bold">R</span>
+          </div>
+          <h1 className="text-lg font-bold text-gray-900">RAG App</h1>
+        </div>
+
         <DocumentUpload onUploaded={handleUploaded} />
-        <hr style={{ borderColor: "#e5e7eb", margin: "16px 0" }} />
-        <h2 style={styles.sectionTitle}>Documents</h2>
-        <DocumentList
-          documents={documents}
-          selectedId={selectedId}
-          onSelect={setSelectedId}
-          onDeleted={handleDeleted}
-        />
+
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+            Documents
+          </p>
+          <DocumentList
+            documents={documents}
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+            onDeleted={handleDeleted}
+          />
+        </div>
       </aside>
 
-      <main style={styles.main}>
+      <main className="flex-1 flex flex-col overflow-hidden">
         <ChatWindow selectedDocumentId={selectedId} />
       </main>
     </div>
   );
 }
-
-const styles = {
-  layout: { display: "flex", height: "100vh" },
-  sidebar: {
-    width: 280,
-    background: "#fff",
-    borderRight: "1px solid #e5e7eb",
-    padding: 20,
-    display: "flex",
-    flexDirection: "column",
-    gap: 12,
-    overflowY: "auto",
-  },
-  title: { fontSize: 20, fontWeight: 700 },
-  sectionTitle: { fontSize: 13, fontWeight: 600, color: "#6b7280", textTransform: "uppercase" },
-  main: { flex: 1, padding: 24, display: "flex", flexDirection: "column" },
-};

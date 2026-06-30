@@ -1,9 +1,15 @@
 from pydantic import BaseModel
 
 
+class ChatMessage(BaseModel):
+    role: str  # "user" or "assistant"
+    text: str
+
+
 class ChatRequest(BaseModel):
     question: str
-    document_id: str | None = None  # None = search all docs
+    document_id: str | None = None
+    history: list[ChatMessage] = []
 
 
 class DocumentInfo(BaseModel):

@@ -1,14 +1,14 @@
 const BASE = "http://localhost:8000";
 
-/**
- * Sends a question and streams the response via Server-Sent Events.
- * onToken is called for each text chunk; onDone is called when finished.
- */
-export function streamChat({ question, documentId, onToken, onDone, onError }) {
+export function streamChat({ question, documentId, history, onToken, onDone, onError }) {
   fetch(`${BASE}/chat/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question, document_id: documentId || null }),
+    body: JSON.stringify({
+      question,
+      document_id: documentId || null,
+      history: history || [],
+    }),
   })
     .then(async (res) => {
       if (!res.ok) {
@@ -27,7 +27,7 @@ export function streamChat({ question, documentId, onToken, onDone, onError }) {
 
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split("\n");
-        buffer = lines.pop(); // keep incomplete line
+        buffer = lines.pop();
 
         for (const line of lines) {
           if (!line.startsWith("data: ")) continue;
